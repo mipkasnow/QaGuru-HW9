@@ -8,21 +8,20 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-import static com.codeborne.selenide.CollectionCondition.containExactTextsCaseSensitive;
-import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class FormTest {
 
-    //@BeforeEach
+    @BeforeEach
     void openForm(){
         clearBrowserCookies();
         Configuration.browserSize = "1590x850";
         open("https://demoqa.com/automation-practice-form");
     }
 
-    //@Test
+    @Test
     void checkForm() {
         $("#firstName").setValue("Mikhail");
         $("#lastName").setValue("Loginov");
@@ -67,6 +66,6 @@ public class FormTest {
         $(byText("NCR Delhi")).should(appear);
     }
 
-    //@AfterEach
+    @AfterEach
     void after(){closeWebDriver();}
 }
