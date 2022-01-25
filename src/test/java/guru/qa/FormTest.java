@@ -2,9 +2,8 @@ package guru.qa;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.ElementsCollection;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 
@@ -14,15 +13,21 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class FormTest {
 
-    @BeforeEach
-    void openForm(){
+    @BeforeAll
+    static void openForm(){
         clearBrowserCookies();
         Configuration.browserSize = "1590x850";
-        open("https://demoqa.com/automation-practice-form");
+        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("enableVNC", true);
+        capabilities.setCapability("enableVideo", true);
+        Configuration.browserCapabilities = capabilities;
     }
 
     @Test
     void checkForm() {
+        open("https://demoqa.com/automation-practice-form");
         $("#firstName").setValue("Mikhail");
         $("#lastName").setValue("Loginov");
         $("#userEmail").setValue("random@mail.ru");
@@ -42,8 +47,7 @@ public class FormTest {
             hobbies.get(i).click();
         }
 
-        File file = new File("src/test/resources/qa-guru.txt");
-        $("input[id='uploadPicture']").uploadFile(file);
+        //$("input[id='uploadPicture']").uploadFromClasspath("qa-guru.txt");
 
         $("[placeholder='Current Address']").setValue("Saint-Pee");
         $("#react-select-3-input").setValue("NCR").pressEnter();
@@ -61,11 +65,11 @@ public class FormTest {
         $(byText("16 March,1993")).should(appear);
         $(byText("Maths")).should(appear);
         $(byText("Sports, Reading, Music")).should(appear);
-        $(byText("qa-guru.txt")).should(appear);
+        //$(byText("qa-guru.txt")).should(appear);
         $(byText("Saint-Pee")).should(appear);
         $(byText("NCR Delhi")).should(appear);
     }
 
-    @AfterEach
-    void after(){closeWebDriver();}
+    @AfterAll
+    static void after(){closeWebDriver();}
 }
