@@ -16,7 +16,7 @@ import static com.codeborne.selenide.Selenide.*;
 public class FormTest {
 
     @BeforeAll
-    static void openForm(){
+    static void before(){
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
         clearBrowserCookies();
         Configuration.browserSize = "1590x850";
@@ -73,6 +73,12 @@ public class FormTest {
         $(byText("NCR Delhi")).should(appear);
     }
 
-    @AfterAll
-    static void after(){closeWebDriver();}
+    @AfterEach
+     void after(){
+        Tools.addVideo();
+        Tools.screenshotAs("Last screen");
+        Tools.pageSource();
+        Tools.browserConsoleLogs();
+        closeWebDriver();
+    }
 }
