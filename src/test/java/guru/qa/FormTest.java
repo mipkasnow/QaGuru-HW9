@@ -2,6 +2,8 @@ package guru.qa;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -15,6 +17,7 @@ public class FormTest {
 
     @BeforeAll
     static void openForm(){
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
         clearBrowserCookies();
         Configuration.browserSize = "1590x850";
         Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
